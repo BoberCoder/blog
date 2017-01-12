@@ -4,6 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-  model.service:
-    class: AppBundle\Model\NewsModel
+  entity.service:
+    class: AppBundle\Services\EntityService
     arguments: ["@doctrine.orm.entity_manager"]

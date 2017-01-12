@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,7 +48,6 @@ class News
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Author" ,inversedBy="posts")
      * @ORM\JoinColumn(name="author_id",referencedColumnName="id")
-     *
      */
     private $author;
 
@@ -58,7 +58,18 @@ class News
      */
     private $date;
 
+    /**
+     * @var int
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="news")
+     */
+    private $coments;
 
+
+    public function __construct()
+    {
+        $this->coments = new ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -187,5 +198,43 @@ class News
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Add coment
+     *
+     * @param \AppBundle\Entity\Comment $coment
+     *
+     * @return News
+     */
+    public function addComent(\AppBundle\Entity\Comment $coment)
+    {
+        $this->coments[] = $coment;
+
+        return $this;
+    }
+
+    /**
+     * Remove coment
+     *
+     * @param \AppBundle\Entity\Comment $coment
+     */
+    public function removeComent(\AppBundle\Entity\Comment $coment)
+    {
+        $this->coments->removeElement($coment);
+    }
+
+    /**
+     * Get coments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComents()
+    {
+        return $this->coments;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }

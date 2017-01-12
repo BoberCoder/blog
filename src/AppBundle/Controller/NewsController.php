@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\News;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,27 +16,20 @@ use Symfony\Component\HttpFoundation\Request;
 class NewsController extends Controller
 {
     /**
-     * Lists all news entities.
-     *
      * @Route("/", name="news_index")
      * @Method("GET")
+     * @Template("@App/news/index.html.twig")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $news = $em->getRepository('AppBundle:News')->findAll();
-
-        return $this->render('@App/news/index.html.twig', array(
-            'news' => $news,
-        ));
+        $news = $this->get('entity.service')->showAllRecords();
+        return  array('news' => $news);
     }
 
     /**
-     * Creates a new news entity.
-     *
      * @Route("/new", name="news_new")
      * @Method({"GET", "POST"})
+     * @Template("@App/news/new.html.twig")
      */
     public function newAction(Request $request)
     {
@@ -44,17 +38,14 @@ class NewsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($news);
-            $em->flush($news);
+            $this->get('entity.service')->createRecord($news);
 
-            return $this->redirectToRoute('news_show', array('id' => $news->getId()));
+            return $this->redirectToRoute('news_index');
         }
 
-        return $this->render('@App/news/new.html.twig', array(
-            'news' => $news,
+        return array(
             'form' => $form->createView(),
-        ));
+        );
     }
 
     /**
@@ -62,15 +53,16 @@ class NewsController extends Controller
      *
      * @Route("/{id}", name="news_show")
      * @Method("GET")
+     * @Template("@App/news/show.html.twig")
      */
     public function showAction(News $news)
     {
         $deleteForm = $this->createDeleteForm($news);
 
-        return $this->render('@App/news/show.html.twig', array(
+        return array(
             'news' => $news,
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
@@ -78,24 +70,23 @@ class NewsController extends Controller
      *
      * @Route("/{id}/edit", name="news_edit")
      * @Method({"GET", "POST"})
+     * @Template("@App/news/edit.html.twig")
      */
     public function editAction(Request $request, News $news)
     {
-        $deleteForm = $this->createDeleteForm($news);
         $editForm = $this->createForm('AppBundle\Form\NewsType', $news);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('news_edit', array('id' => $news->getId()));
+            return $this->redirectToRoute('news_show', array('id' => $news->getId()));
         }
 
-        return $this->render('news/edit.html.twig', array(
+        return array(
             'news' => $news,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
@@ -110,9 +101,7 @@ class NewsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($news);
-            $em->flush($news);
+            $this->get('entity.service')->deleteRecord($news);
         }
 
         return $this->redirectToRoute('news_index');

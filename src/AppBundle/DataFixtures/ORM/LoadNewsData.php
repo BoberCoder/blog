@@ -5,11 +5,11 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Author;
 use AppBundle\Entity\News;
-use AppBundle\Repository\AuthorRepository;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadNewsData implements FixtureInterface
+class LoadNewsData extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
@@ -111,5 +111,15 @@ class LoadNewsData implements FixtureInterface
 
         $manager->flush();
 
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 2;
     }
 }

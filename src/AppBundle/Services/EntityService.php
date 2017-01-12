@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Model;
+namespace AppBundle\Services;
 
 use AppBundle\Entity\Category;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class NewsModel
+class EntityService
 {
 
     private $em;
@@ -17,14 +17,13 @@ class NewsModel
 
     public function createRecord($record)
     {
-
+        $this->em->persist($record);
+        $this->em->flush($record);
     }
 
-    public function deleteRecord($id)
+    public function deleteRecord($record)
     {
-        $repository = $this->em->getRepository('AppBundle:News');
-        $data = $repository->find($id);
-        $this->em->remove($data);
+        $this->em->remove($record);
         $this->em->flush();
     }
 
@@ -34,11 +33,6 @@ class NewsModel
         $data = $repository->findAll();
 
         return $data;
-    }
-
-    public function showRecord($id)
-    {
-
     }
 
     public function editRecord($id)

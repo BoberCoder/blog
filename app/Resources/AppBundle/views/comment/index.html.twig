@@ -1,0 +1,45 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>Comments list</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Text</th>
+                <th>Date</th>
+                <th>Likes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+
+            <tr>
+                <td><a href="#">{{ comment.id }}</a></td>
+                <td>{{ comment.username }}</td>
+                <td>{{ comment.text }}</td>
+                <td>{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ comment.likes }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="#">show</a>
+                        </li>
+                        <li>
+                            <a href="#">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('comment_new') }}">Create a new comment</a>
+        </li>
+    </ul>
+{% endblock %}

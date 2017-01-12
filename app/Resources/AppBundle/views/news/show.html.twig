@@ -3,7 +3,7 @@
 {%  block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="page-header">
                 <h1>{{ news.title }}</h1>
             </div>
@@ -13,7 +13,7 @@
                             <img src="http://www.securitylab.ru/upload/iblock/74f/74f9c7eeade55cc4f3a8d37899e36fdc.png" alt="">
                         </a>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <p>
                             {{ news.subject}}
                         </p>
@@ -26,15 +26,29 @@
                                 <a href="#"><span class="label label-info">Bootstrap</span></a>
                                 <a href="#"><span class="label label-info">UI</span></a>
                                 <a href="#"><span class="label label-info">growth</span></a></li>
-                            <li><a href="{{ path('news_index') }}">Back to the list</a></li>
-                            <li><a href="{{ path('news_edit', { 'id': news.id }) }}">Edit</a></li>
+                        </ul>
+                        {% if news.coments.toArray == true %}
+                            <div>
+                                {{ render(controller('AppBundle:Comment:index',{'id': news.id})) }}
+                            </div>
+                            {% else %}
+                                <div>
+                                    {{ render(controller('AppBundle:Comment:new',{'id':news.id})) }}
+                                </div>
+                        {% endif %}
+
+                        <div style="height: 100px" align="center"><a class="btn btn-default btn-lg" href="{{ path('news_index') }}">Back to the list</a></div>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-inline">
+                            <li><a class="btn btn-info btn-sm" href="{{ path('news_edit', { 'id': news.id }) }}">Edit</a></li>
                             <li>{{ form_start(delete_form) }}
-                                <input type="submit" value="Delete">
+                                <input class="btn btn-info btn-sm" type="submit" value="Delete">
                                 {{ form_end(delete_form) }}
                             </li>
                         </ul>
                     </div>
                 </div>
-
-            {% endblock content %}
+        </div>
+{% endblock content %}
 

@@ -3,12 +3,12 @@
 namespace AppBundle\DataFixtures\ORM;
 
 
-use AppBundle\Entity\Author;
+use AppBundle\Entity\Comment;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadAuthorData extends AbstractFixture implements OrderedFixtureInterface
+class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
@@ -18,20 +18,18 @@ class LoadAuthorData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $author = new Author();
-        $author->setName('author');
-        $author->setAge(20);
-        $author->setPhoto('image');
+        $date = new \DateTime('2016-12-10');
+        $news = $manager->getRepository('AppBundle:News')->findOneBy(array('id' => '4'));
 
-        $author2 = new Author();
-        $author2->setName('author2');
-        $author2->setAge(23);
-        $author2->setPhoto('image');
+        $comment = new Comment();
+        $comment->setNews($news);
+        $comment->setUsername('Jimme');
+        $comment->setText('Blablablablablablablabla');
+        $comment->setDate($date);
+        $comment->setLikes(5);
 
-        $manager->persist($author);
-        $manager->persist($author2);
+        $manager->persist($comment);
         $manager->flush();
-
     }
 
     /**
@@ -41,6 +39,6 @@ class LoadAuthorData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }
