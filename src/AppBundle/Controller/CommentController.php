@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\News;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -36,20 +37,24 @@ class CommentController extends Controller
     /**
      * Creates a new comment entity.
      *
-     * @Route("/new", name="comment_new")
+     * @Route("/new/{id}", name="comment_new")
      * @Method({"GET", "POST"})
      * @Template("@App/comment/new.html.twig")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, News $news)
     {
         $comment = new Comment();
-        $form = $this->createForm('AppBundle\Form\CommentType',$comment);
+        $form = $this->createForm('AppBundle\Form\CommentType',$comment, array(
+            'action' => $this->generateUrl('comment_new',array('id' => $news->getId())),
+        ));
+        $form->get('news')->setData($news);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('entity.service')->createRecord($comment);
 
-            return $this->redirectToRoute('comment_new');
+            return $this->redirectToRoute('news_show',array('id' => $news->getId()));
         }
 
         return array(

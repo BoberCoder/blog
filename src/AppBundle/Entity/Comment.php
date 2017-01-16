@@ -53,7 +53,7 @@ class Comment
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\News" ,inversedBy="coments")
-     * @ORM\JoinColumn(name="news_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="news_id",referencedColumnName="id", onDelete="CASCADE")
      */
     private $news;
 

@@ -74,6 +74,7 @@ class NewsController extends Controller
      */
     public function editAction(Request $request, News $news)
     {
+        dump($request);
         $editForm = $this->createForm('AppBundle\Form\NewsType', $news);
         $editForm->handleRequest($request);
 

@@ -24,7 +24,7 @@
                         <ul class="list-inline">
                             <li><i class="glyphicon glyphicon-music"></i> <a href="#">Назва категорії</a> | </li>
                             <li><i class="glyphicon glyphicon-calendar"></i> {{ news.date|date('Y-m-d') }}|</li>
-                            <li><i class="icon-comment"></i> <a href="#">3 Comments</a></li>
+                            <li><i class="icon-comment"></i> <a href="#">{{ news.coments.count }} Comments</a></li>
                             <li><i class="icon-tags"></i> Tags : <a href="#"><span class="label label-info">Snipp</span></a>
                                 <a href="#"><span class="label label-info">Bootstrap</span></a>
                                 <a href="#"><span class="label label-info">UI</span></a>
