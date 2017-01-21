@@ -43,19 +43,34 @@
                             <li><a href="#">Rock</a></li>
                             <li><a href="#">Dubstep</a></li>
                         </ul>
-                    <li><a href="/Merch">Merch</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><a href="#">Merch</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
-            </div><!--/.nav-collapse -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#modalreg" data-toggle="modal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#modalform" data-toggle="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
+
+    {% block regform %}
+        {{ render(controller('AppBundle:Security:registry')) }}
+    {% endblock regform %}
+
+
+    {% block loginform %}
+        {{ render(controller('AppBundle:Security:login')) }}
+    {% endblock loginform %}
+
 {% block content %}
     <div class="container parent" align="center" >
         <img src="{{ asset('image/Logotype.png') }}">
     </div>
 {% endblock content %}
+
+
 {% block javascripts %}
-<!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
 {% endblock javascripts %}

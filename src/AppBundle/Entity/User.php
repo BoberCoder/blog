@@ -56,6 +56,12 @@ class User
      */
     private $photo;
 
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\UserData", mappedBy="user")
+     */
+    private $userdata;
+
 
     /**
      * Get id
@@ -185,5 +191,29 @@ class User
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Set userdata
+     *
+     * @param \AppBundle\Entity\UserData $userdata
+     *
+     * @return User
+     */
+    public function setUserdata(\AppBundle\Entity\UserData $userdata = null)
+    {
+        $this->userdata = $userdata;
+
+        return $this;
+    }
+
+    /**
+     * Get userdata
+     *
+     * @return \AppBundle\Entity\UserData
+     */
+    public function getUserdata()
+    {
+        return $this->userdata;
     }
 }

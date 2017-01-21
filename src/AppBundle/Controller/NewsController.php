@@ -22,8 +22,8 @@ class NewsController extends Controller
      */
     public function indexAction()
     {
-        $news = $this->get('entity.service')->showAllRecords();
-        return  array('news' => $news);
+        $news = $this->get('entity.service')->showAllRecords('AppBundle:News');
+        return array('news' => $news);
     }
 
     /**
@@ -38,7 +38,7 @@ class NewsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('entity.service')->createRecord($news);
+            $this->get('entity.service')->writeRecord($news);
 
             return $this->redirectToRoute('news_index');
         }
@@ -49,8 +49,6 @@ class NewsController extends Controller
     }
 
     /**
-     * Finds and displays a news entity.
-     *
      * @Route("/{id}", name="news_show")
      * @Method("GET")
      * @Template("@App/news/show.html.twig")
@@ -66,20 +64,17 @@ class NewsController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing news entity.
-     *
      * @Route("/{id}/edit", name="news_edit")
      * @Method({"GET", "POST"})
      * @Template("@App/news/edit.html.twig")
      */
     public function editAction(Request $request, News $news)
     {
-        dump($request);
         $editForm = $this->createForm('AppBundle\Form\NewsType', $news);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->get('entity.service')->writeRecord($news);
 
             return $this->redirectToRoute('news_show', array('id' => $news->getId()));
         }
@@ -91,8 +86,6 @@ class NewsController extends Controller
     }
 
     /**
-     * Deletes a news entity.
-     *
      * @Route("/{id}", name="news_delete")
      * @Method("DELETE")
      */
@@ -109,8 +102,6 @@ class NewsController extends Controller
     }
 
     /**
-     * Creates a form to delete a news entity.
-     *
      * @param News $news The news entity
      *
      * @return \Symfony\Component\Form\Form The form

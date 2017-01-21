@@ -7,18 +7,15 @@ use AppBundle\Entity\News;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Comment controller.
- *
  * @Route("comment")
  */
 class CommentController extends Controller
 {
     /**
-     * Lists all comment entities.
-     *
      * @Route("/", name="comment_index")
      * @Method("GET")
      * @Template("@App/comment/index.html.twig")
@@ -35,8 +32,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Creates a new comment entity.
-     *
      * @Route("/new/{id}", name="comment_new")
      * @Method({"GET", "POST"})
      * @Template("@App/comment/new.html.twig")
@@ -52,7 +47,7 @@ class CommentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('entity.service')->createRecord($comment);
+            $this->get('entity.service')->writeRecord($comment);
 
             return $this->redirectToRoute('news_show',array('id' => $news->getId()));
         }
@@ -64,8 +59,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing comment entity.
-     *
      * @Route("/{id}/edit", name="comment_edit")
      * @Method({"GET", "POST"})
      */
@@ -89,8 +82,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Deletes a comment entity.
-     *
      * @Route("/{id}", name="comment_delete")
      * @Method("DELETE")
      */
@@ -109,8 +100,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Creates a form to delete a comment entity.
-     *
      * @param Comment $comment The comment entity
      *
      * @return \Symfony\Component\Form\Form The form

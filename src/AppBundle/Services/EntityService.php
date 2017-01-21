@@ -15,7 +15,7 @@ class EntityService
         $this->em = $em;
     }
 
-    public function createRecord($record)
+    public function writeRecord($record)
     {
         $this->em->persist($record);
         $this->em->flush($record);
@@ -27,17 +27,12 @@ class EntityService
         $this->em->flush();
     }
 
-    public function showAllRecords()
+    public function showAllRecords($entity)
     {
-        $repository = $this->em->getRepository('AppBundle:News');
+        $repository = $this->em->getRepository($entity);
         $data = $repository->findAll();
 
         return $data;
-    }
-
-    public function editRecord($id)
-    {
-
     }
 
 }

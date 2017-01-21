@@ -10,13 +10,10 @@ body {
     line-height: 600px;
 
     position: relative;
-    -webkit-animation-name: example; /* Chrome, Safari, Opera */
-    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
     animation-name: example;
     animation-duration: 2.5s;
 }
 
-/* Chrome, Safari, Opera */
 @-webkit-keyframes example {
     0% {opacity: 0;}
 }

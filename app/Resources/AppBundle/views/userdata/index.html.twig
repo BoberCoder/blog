@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Userdatas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for userDatum in userDatas %}
+            <tr>
+                <td><a href="{{ path('userdata_show', { 'id': userDatum.id }) }}">{{ userDatum.id }}</a></td>
+                <td>{{ userDatum.login }}</td>
+                <td>{{ userDatum.password }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('userdata_show', { 'id': userDatum.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('userdata_edit', { 'id': userDatum.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('userdata_new') }}">Create a new userDatum</a>
+        </li>
+    </ul>
+{% endblock %}
